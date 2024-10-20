@@ -1,0 +1,8 @@
+[2022-05-28 18:14:24] merlin-logger.DEBUG: The welcome step has been displayed [] []
+[2022-05-28 18:14:27] merlin-logger.DEBUG: The child theme installation step has been displayed [] []
+[2022-05-28 18:14:34] merlin-logger.DEBUG: The child theme installation step has been displayed [] []
+[2022-05-28 18:14:35] merlin-logger.DEBUG: The plugin installation step has been displayed [] []
+[2022-05-28 18:15:01] merlin-logger.DEBUG: A plugin with the following data will be processed {"plugin_slug":"elementor-pro","message":"Installing"} []
+[2022-05-28 18:15:17] merlin-logger.DEBUG: A plugin with the following data will be processed {"plugin_slug":"elementor-pro","message":"Activating"} []
+[2022-05-28 18:15:19] merlin-logger.DEBUG: A plugin with the following data was processed {"plugin_slug":"elementor-pro"} []
+[2022-05-28 18:15:26] merlin-logger.DEBUG: The content import step has been displayed [] []

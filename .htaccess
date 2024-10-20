@@ -1,0 +1,80 @@
+<IfModule mod_headers.c>
+    Header set Accept-Ranges bytes
+</IfModule> 
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+	
+	# Remove 'www' from URL
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+    RewriteRule ^product/transfer-of-shares/?$ /service/share-transfer [L,R=301]
+    RewriteRule ^product/strike-off-of-company/?$ /service/company-strike-off [L,R=301]
+    RewriteRule ^product/roc-filling-for-pvt-ltd/?$ /service/company-annual-filing [L,R=301]
+    RewriteRule ^product/roc-filling-for-opc/?$ /service/opc-annual-filing [L,R=301]
+    RewriteRule ^product/roc-filling-for-llp/?$ /service/llp-annual-filing [L,R=301]
+    RewriteRule ^product/online-accounting-services/?$ /service/accounting-bookkeeping-services [L,R=301]
+    RewriteRule ^product/increase-in-authorized-capital/?$ /service/increase-authorized-share-capital [L,R=301]
+    RewriteRule ^product/gst-returns-filing/?$ /service/gst-return-filing [L,R=301]
+    RewriteRule ^product/closure-of-the-pvt-ltd/?$ /service/closure-of-private-limited-company [L,R=301]
+    RewriteRule ^product/closure-of-the-llp/?$ /service/closing-llp [L,R=301]
+    RewriteRule ^product/change-of-registered-office/?$ /service/registered-office-change [L,R=301]
+    RewriteRule ^product/section-8-co-ngo/?$ /service/section-8-company-registration [L,R=301]
+    RewriteRule ^product/startup-india/?$ /service/startup-india-registration [L,R=301]
+    RewriteRule ^product/trademark-objection-reply/?$ /service/trademark-objection [L,R=301]
+    RewriteRule ^product/public-limited/?$ /service/public-limited-company-registration [L,R=301]
+    RewriteRule ^product/sole-proprietorship-registration-online/?$ /service/sole-proprietorship-registration [L,R=301]
+    RewriteRule ^product/trademark-registration/?$ /service/trademark-registration-india [L,R=301]
+    RewriteRule ^product/limited-liability-partnership/?$ /service/llp-registration-india [L,R=301]
+    RewriteRule ^product/one-person-company/?$ /service/one-person-company-opc-registration [L,R=301]
+
+    RewriteRule ^product/resignation-of-director/?$ /service/resignation-of-director [L,R=301]
+    RewriteRule ^product/legal-advisory-services/?$ /service/legal-advisory-services [L,R=301]
+    RewriteRule ^product/closure-of-opc/?$ /service/closure-of-opc [L,R=301]
+    RewriteRule ^product/company-registration-consultant/?$ /service/company-registration-consultant [L,R=301]
+    RewriteRule ^product/appointment-of-director/?$ /service/appointment-of-director [L,R=301]
+    RewriteRule ^product/small-business-registration-online/?$ /service/small-business-registration-online [L,R=301]
+    RewriteRule ^product/gst-registration/?$ /service/gst-registration [L,R=301]
+    RewriteRule ^product/trademark-opposition/?$ /service/trademark-opposition [L,R=301]
+    RewriteRule ^product/trademark-renewal/?$ /service/trademark-renewal [L,R=301]
+
+    RewriteRule ^product/virtual-office-address/?$ /service/virtual-office-address [L,R=301]
+    RewriteRule ^product/private-limited-company-registration-in-bangalore/?$ /service/private-limited-company-registration-in-bangalore [L,R=301]
+    RewriteRule ^product/private-limited-company-registration/?$ /service/private-limited-company-registration [L,R=301]
+	
+	RewriteRule ^product/private-limited-company-registration-in-delhi/?$ /service/private-limited-company-registration-in-delhi [L,R=301]
+	RewriteRule ^product/private-limited-company-registration-in-maharashtra/?$ /service/private-limited-company-registration-in-maharashtra [L,R=301]
+	RewriteRule ^product/private-limited-company-registration-in-bangalore/?$ /service/private-limited-company-registration-in-bangalore [L,R=301]
+	RewriteRule ^product/private-limited-company-registration-in-uttar-pradesh/?$ /service/private-limited-company-registration-in-uttar-pradesh [L,R=301]
+	
+	RewriteRule ^service/transfer-of-shares/?$ /service/share-transfer [L,R=301]
+	RewriteRule ^service/strike-off-of-company/?$ /service/company-strike-off [L,R=301]
+	RewriteRule ^service/roc-filling-for-pvt-ltd/?$ /service/company-annual-filing [L,R=301]
+	RewriteRule ^service/roc-filling-for-opc/?$ /service/opc-annual-filing [L,R=301]
+	RewriteRule ^service/roc-filling-for-llp/?$ /service/llp-annual-filing [L,R=301]
+	
+	RewriteRule ^service/online-accounting-services/?$ /service/accounting-bookkeeping-services [L,R=301]
+	RewriteRule ^service/increase-in-authorized-capital/?$ /service/increase-authorized-share-capital [L,R=301]
+	RewriteRule ^service/gst-returns-filing/?$ /service/gst-return-filing [L,R=301]
+	RewriteRule ^service/closure-of-the-pvt-ltd/?$ /service/closure-of-private-limited-company [L,R=301]
+	RewriteRule ^service/closure-of-the-llp/?$ /service/closing-llp [L,R=301]
+	RewriteRule ^service/change-of-registered-office/?$ /service/registered-office-change [L,R=301]
+	RewriteRule ^service/section-8-co-ngo/?$ /service/section-8-company-registration [L,R=301]
+	RewriteRule ^service/startup-india/?$ /service/startup-india-registration [L,R=301]
+	RewriteRule ^service/trademark-objection-reply/?$ /service/trademark-objection [L,R=301]
+	RewriteRule ^service/public-limited/?$ /service/public-limited-company-registration [L,R=301]
+	RewriteRule ^service/sole-proprietorship-registration-online/?$ /service/sole-proprietorship-registration [L,R=301]
+	RewriteRule ^service/trademark-registration/?$ /service/trademark-registration-india [L,R=301]
+	RewriteRule ^service/limited-liability-partnership/?$ /service/llp-registration-india [L,R=301]
+	RewriteRule ^service/one-person-company/?$ /service/one-person-company-opc-registration [L,R=301]
+	
+	RewriteRule ^contact/?$ /contact-us [L,R=301]
+
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L,QSA]
+</IfModule>
+
+
+
