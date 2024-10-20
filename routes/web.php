@@ -163,6 +163,7 @@ Route::group(['prefix'=>'admin','middleware' => ['auth', 'admin']], function() {
 
 	// services
     Route::get('pages/servcies', [DashboardController::class, 'indexServices'])->name('admin.service.view');
+    Route::get('pages/servcie/{id}', [DashboardController::class, 'editService'])->name('admin.service.edit');
     Route::get('pages/create/service', [DashboardController::class, 'createServices'])->name('admin.service.create');
 
 
@@ -171,6 +172,7 @@ Route::group(['prefix'=>'admin','middleware' => ['auth', 'admin']], function() {
 	Route::post('/upload', [DashboardController::class, 'upload'])->name('upload');
 	// rest
     Route::post('pages/service/store', [DashboardController::class, 'storeService'])->name('admin.service.store');
+    Route::put('pages/service/update/{id}', [DashboardController::class, 'updateService'])->name('admin.service.updateService');
     Route::post('pages/home/store', [DashboardController::class, 'storeHomepage'])->name('admin.pagesUpdate.homepage');
     Route::post('pages/about/store', [DashboardController::class, 'storeAboutpage'])->name('admin.pagesUpdate.aboutpage');
     Route::post('pages/client/store', [DashboardController::class, 'storeClientpage'])->name('admin.storeClient');

@@ -22,4 +22,7 @@ class Service extends Model
     function herosection()  {
         return $this->hasOne(HomeSection::class , 'service_id');
     }
+    function overviews()  {
+        return $this->hasOne(Overview::class , 'service_id');
+    }
 }

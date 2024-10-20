@@ -14,6 +14,7 @@ use App\Models\Contactpage;
 use App\Models\Page;
 use App\Models\Client;
 use App\Models\Service;
+use App\Models\Overview;
 
 class DashboardController extends Controller
 {
@@ -976,24 +977,24 @@ class DashboardController extends Controller
          $client =  Client::find($id);
           
         // Check if the client entry exists
-    if ($client) {
-        // Get the logo file name
-        $logoPath = public_path('storage/uploads/' . $client->logo);
+        if ($client) {
+            // Get the logo file name
+            $logoPath = public_path('storage/uploads/' . $client->logo);
 
-        // Delete the file from the storage
-        if (file_exists($logoPath)) {
-            unlink($logoPath);
+            // Delete the file from the storage
+            if (file_exists($logoPath)) {
+                unlink($logoPath);
+            }
+
+            // Delete the database record
+            $client->delete();
+
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Logo and record deleted successfully.');
         }
 
-        // Delete the database record
-        $client->delete();
-
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Logo and record deleted successfully.');
-    }
-
-    // Redirect back with an error message if the record doesn't exist
-    return redirect()->back()->with('error', 'Client record not found.');
+        // Redirect back with an error message if the record doesn't exist
+        return redirect()->back()->with('error', 'Client record not found.');
     }
 
     public function indexServices() {
@@ -1011,160 +1012,67 @@ class DashboardController extends Controller
     // store Service Page 
     public function storeService(Request $request)  {
         $validated = $request->validate([
+            // Meta Tags
+            'meta_title' => 'required',
+            'meta_keyword' => 'required',
+            'meta_description' => 'required',
+
             // Hero Sec
             'Herotitle' => 'required',
             'ContentHero' => 'required',
             'btn_one' => 'required',
-            'btn_two' => 'required',
-            //client Area
+            //Overview Area
+            'overtitle' => 'required',
+            'content' => 'required',
+            // Card Area
             'Menuname' => 'required',
             'slug' => 'required',
-            //Service Title
-            'Serv_title' => 'required',
-            'Serv_sub' => 'required',
-            // Testimonial Title
-            'test_title' => 'required',
-            'test_content' => 'required',
-            //WhatWeDo
-            'WhatDo_title' => 'required',
-            
+            'category' => 'required',
+            'card_title' => 'required',
+            'card_Img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cart_content' => 'required',
+            // Faq Area
+            'faq_sub' => 'required',
+            'faq_title' => 'required',
         ]);
 
 
         // image upload 
 
             // Image Store
-            if($request->hasFile('USP_img2'))
+            if($request->hasFile('card_Img'))
                 {
                     //Get full name with extenstion
-                    $filenameWithExt = $request->file('USP_img2')->getClientOriginalName();
+                    $filenameWithExt = $request->file('card_Img')->getClientOriginalName();
                     // Get only name
                     $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
                     // GET ONLY EXTENTION
-                    $Extenstion = $request->file('USP_img2')->getClientOriginalExtension();
+                    $Extenstion = $request->file('card_Img')->getClientOriginalExtension();
                     // final file name
-                    $fileNameToStoreUSP2 = $filename. '_'.time().'.'.$Extenstion ;
-                    $path = $request->file('USP_img2')->storeAs('public/uploads', $fileNameToStoreUSP2);
+                    $fileNameToStore = $filename. '_'.time().'.'.$Extenstion ;
+                    $path = $request->file('card_Img')->storeAs('public/uploads', $fileNameToStore);
 
                 }
                 else{
-                    $fileNameToStoreUSP2 = 'NoImge.jpg';
+                    $fileNameToStore = 'NoImge.jpg';
                 }
+                
+           
 
+            // Service  Area 
+            $sev = new Service();
             
-            // client Area
-            if( $request->input('client_sub')){
-                $homepage->client_sub = $request->input('client_sub');
-            }
-            $homepage->client_title = $request->input('client_title');
-            $homepage->client_content = $request->input('client_content');
-
-            // Service  Panel Area 
-            if( $request->input('Serv_sub')){
-                $homepage->Serv_sub = $request->input('Serv_sub');
-            }
-            $homepage->Serv_title = $request->input('Serv_title');
-            if($request->input('Serv_content')){
-                $homepage->Serv_content = $request->input('Serv_content');
-            }
-
-            // Testimonial  Panel Area 
-            if( $request->input('test_sub')){
-                $homepage->test_sub = $request->input('test_sub');
-            }
-            $homepage->test_title = $request->input('test_title');
-            $homepage->test_content = $request->input('test_content');
-
-            // whatwedo  Panel Area
-            if( $request->input('WhatDO_subtitle')){
-                $homepage->WhatDO_subtitle = $request->input('WhatDO_subtitle');
-            }
-            $homepage->WhatDo_title = $request->input('WhatDo_title');
-            // Point 1
-            $homepage->WDO_bOne_icon = $fileNameToStoreWWDO;
-            $homepage->WDO_bOne_icon_alttext = $request->input('WDO_bOne_icon_alttext');
-            $homepage->WDo_bone_title = $request->input('WDo_bone_title');
-            $homepage->WDo_bone_content = $request->input('WDo_bone_content');
-            // point 2
-            $homepage->WDo_bTwo_icon = $fileNameToStoreWWDT;
-            $homepage->WDo_bTwo_icon_alttext = $request->input('WDo_bTwo_icon_alttext');
-            $homepage->WDo_bTwo_title = $request->input('WDo_bTwo_title');
-            $homepage->WDo_bTwo_content = $request->input('WDo_bTwo_content');
-            // point 3
-            $homepage->WDo_bThree_Icon = $fileNameToStoreWWDTH;
-            $homepage->WDo_bThree_Icon_alttext = $request->input('WDo_bThree_Icon_alttext');
-            $homepage->WDo_bThree_title = $request->input('WDo_bThree_title');
-            $homepage->WDo_bThree_content = $request->input('WDo_bThree_content');
-             // point 4
-            $homepage->Wdo_bFour_icon = $fileNameToStoreWWDF;
-            $homepage->Wdo_bFour_icon_alttext = $request->input('Wdo_bFour_icon_alttext');
-            $homepage->WDo_bFour_title = $request->input('WDo_bFour_title');
-            $homepage->WDo_bFour_content = $request->input('WDo_bFour_content');
-
-
-            $homepage->save();
-
-             // Tursted Area
-             $coutArea = new  CounterArea();
-             if($request->input('trusted_sub_title')){
-                 $coutArea->sub_title = $request->input('trusted_sub_title');
-             }
-             $coutArea->title = $request->input('trusted_title');
-             $coutArea->content = $request->input('trusted_content');
-             $coutArea->pone = $request->input('pone');
-             $coutArea->ptwo = $request->input('ptwo');
-             $coutArea->pthree = $request->input('pthree');
-             $coutArea->pfour = $request->input('pfour');
-             $coutArea->btn_Value = $request->input('btn');
-             if($request->hasFile('trusted_img')){
-                 $coutArea->bg_color = $fileNameToStoreTrusted;
-             }
-             $coutArea->btn_Name = $request->input('trusted_img_alt');
-             $coutArea->home_id = $homepage->id;
-             $coutArea->save();
-             // USP 1
-             $uspsval  = new Usp();
-             if($request->input('USP_sub_title')){
-                 $uspsval->sub_title = $request->input('USP_sub_title');
-             }
-             $uspsval->title = $request->input('USP_title');
-             $uspsval->content = $request->input('USP_content');
-             $uspsval->btn = $request->input('USP_btn');
-             $uspsval->img = $fileNameToStoreUSP;
-             $uspsval->img_alt = $request->input('USP_img_alt');
-             $uspsval->bg_color = $request->input('USP_bg_color');
-             $uspsval->home_id = $homepage->id;
-             $uspsval->save();
-
-             // USP 2
-             $uspsval2  = new Usp();
-             
-             if($request->input('USP_sub_title2')){
-                 $uspsval2->sub_title = $request->input('USP_sub_title2');
-             }
-             $uspsval2->title  = $request->input('USP_title2');
-             $uspsval2->content= $request->input('USP_content2');
-             $uspsval2->btn = $request->input('btn2');
-             $uspsval2->img = $fileNameToStoreUSP2;
-             $uspsval2->img_alt = $request->input('USP_img_alt2');
-             $uspsval2->bg_color = $request->input('USP_bg_color2');
-             $uspsval2->home_id = $homepage->id;
-             $uspsval2->save();
-
-            // Hero Section
-             $heroSec = new HomeSection();
-             $heroSec->title = $request->input('Herotitle');
-             $heroSec->des = $request->input('ContentHero');
-             $heroSec->Rimg = $fileNameToStoreRImg;
-             $heroSec->Rimg_alttext = $request->input('Rimg_alttext');
-             $heroSec->G_img =  $fileNameToStoreG_img ;
-             $heroSec->G_img_alttext = $request->input('G_img_alttext');
-             $heroSec->T_img_alttext = $request->input('T_img_alttext');
-             $heroSec->T_img = $fileNameToStoreT_img;
-             $heroSec->btn_one = $request->input('btn_one');
-             $heroSec->btn_two = $request->input('btn_two');
-             $heroSec->home_id = $homepage->id;
-             $heroSec->save();
+            $sev->Menuname = $request->input('Menuname');
+            $sev->card_title = $request->input('card_title');
+            $sev->slug = $request->input('slug');
+            $sev->card_Img = $fileNameToStore;
+            $sev->card_tag = $request->input('card_Img_alt');
+            $sev->category = $request->input('category');
+            $sev->cart_content = $request->input('cart_content');
+            $sev->faq_sub = $request->input('faq_sub');
+            $sev->faq_title = $request->input('faq_title');
+            $sev->status = 'Active';
+            $sev->save();
 
             // meta data update 
             if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
@@ -1172,13 +1080,236 @@ class DashboardController extends Controller
                 $metaData->meta_title = $request->input('meta_title');
                 $metaData->meta_keyword = $request->input('meta_keyword');
                 $metaData->meta_description = $request->input('meta_description');
-                $metaData->home_id = $homepage->id;
+                $metaData->service_id = $sev->id;
                 $metaData->save();
             }
+
+           // Overview Area
+           $ooverdata = new Overview();
+           if( $request->input('oversubtitle')){
+               $ooverdata->subtitle = $request->input('oversubtitle');
+           }
+           $ooverdata->title = $request->input('overtitle');
+           $ooverdata->content = $request->input('content');
+           $ooverdata->RYlink = $request->input('RYlink');
+           //overview image
+           if($request->hasFile('Rimg'))
+           {
+               //Get full name with extenstion
+               $filenameWithExt = $request->file('Rimg')->getClientOriginalName();
+               // Get only name
+               $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+               // GET ONLY EXTENTION
+               $Extenstion = $request->file('Rimg')->getClientOriginalExtension();
+               // final file name
+               $fileNameToStoreRimg = $filename. '_'.time().'.'.$Extenstion ;
+               $path = $request->file('Rimg')->storeAs('public/uploads', $fileNameToStoreRimg);
+               $ooverdata->Rimg = $fileNameToStoreRimg;
+               $ooverdata->Rimg_alttext = $request->input('Rimg_alttext');
+           }
+           $ooverdata->service_id =  $sev->id;
+           $ooverdata->save();
+
+             
+
+            // Hero Section
+             $heroSec = new HomeSection();
+             $heroSec->title = $request->input('Herotitle');
+             $heroSec->des = $request->input('ContentHero');
+             if($request->hasFile('heroRimg'))
+                {
+                    //Get full name with extenstion
+                    $filenameWithExt = $request->file('heroRimg')->getClientOriginalName();
+                    // Get only name
+                    $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+                    // GET ONLY EXTENTION
+                    $Extenstion = $request->file('heroRimg')->getClientOriginalExtension();
+                    // final file name
+                    $fileNameToStoreheroRimg = $filename. '_'.time().'.'.$Extenstion ;
+                    $path = $request->file('heroRimg')->storeAs('public/uploads', $fileNameToStoreheroRimg);
+                    $heroSec->Rimg = $fileNameToStoreheroRimg;
+                    $heroSec->Rimg_alttext = $request->input('heroRimg_alttext');
+                }
+             
+                if($request->hasFile('G_img'))
+                {
+                    //Get full name with extenstion
+                    $filenameWithExt = $request->file('G_img')->getClientOriginalName();
+                    // Get only name
+                    $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+                    // GET ONLY EXTENTION
+                    $Extenstion = $request->file('G_img')->getClientOriginalExtension();
+                    // final file name
+                    $fileNameToStoreG_img = $filename. '_'.time().'.'.$Extenstion ;
+                    $path = $request->file('G_img')->storeAs('public/uploads', $fileNameToStoreG_img);
+                    $heroSec->G_img = $fileNameToStoreG_img;
+                    $heroSec->G_img_alttext = $request->input('G_img_alttext');
+                }
+                if($request->hasFile('T_img'))
+                {
+                    //Get full name with extenstion
+                    $filenameWithExt = $request->file('T_img')->getClientOriginalName();
+                    // Get only name
+                    $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+                    // GET ONLY EXTENTION
+                    $Extenstion = $request->file('T_img')->getClientOriginalExtension();
+                    // final file name
+                    $fileNameToStoreT_img = $filename. '_'.time().'.'.$Extenstion ;
+                    $path = $request->file('T_img')->storeAs('public/uploads', $fileNameToStoreT_img);
+                    $heroSec->T_img = $fileNameToStoreT_img;
+                    $heroSec->T_img_alttext = $request->input('T_img_alttext');
+                }
+             $heroSec->btn_one = $request->input('btn_one');
+             if($request->input('btn_two')){
+                $heroSec->btn_two = $request->input('btn_two');
+             }
+             $inbuildForm = $request->boolean('RForm');
+             $heroSec->RForm = $inbuildForm;
+             $heroSec->service_id = $sev->id;
+             $heroSec->save();
+
+
+             return redirect()->route('admin.service.view')->with('success' , 'Service Has Been Created Successfull'); 
+    }
+
+
+
+    public function editService($id) {
+        $serv = Service::find($id);
+        return view('admin.pages.services.edit' , ['serv' => $serv]);
+    }
+
+    // Update Service Page 
+    public function updateService(Request $request , $id)  {
+        
+        // image upload 
+
             
+                
+           
+
+            // Service  Area 
+            $sev = Service::find($id);
+            $sev->Menuname = $request->input('Menuname');
+            $sev->card_title = $request->input('card_title');
+            $sev->slug = $request->input('slug');
+            // Image Store
+            if($request->hasFile('card_Img'))
+                {
+                    //Get full name with extenstion
+                    $filenameWithExt = $request->file('card_Img')->getClientOriginalName();
+                    // Get only name
+                    $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+                    // GET ONLY EXTENTION
+                    $Extenstion = $request->file('card_Img')->getClientOriginalExtension();
+                    // final file name
+                    $fileNameToStore = $filename. '_'.time().'.'.$Extenstion ;
+                    $path = $request->file('card_Img')->storeAs('public/uploads', $fileNameToStore);
+                    $sev->card_Img = $fileNameToStore;
+                }
+            $sev->card_tag = $request->input('card_Img_alt');
+            $sev->category = $request->input('category');
+            $sev->cart_content = $request->input('cart_content');
+            $sev->faq_sub = $request->input('faq_sub');
+            $sev->faq_title = $request->input('faq_title');
+            $sev->status = $request->input('status') == 'Active' ? 'Active' : 'Disable';
+            $sev->save();
+
+            // meta data update 
+            if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
+                $metaData =  Metatag::find($sev->metatag->id);
+                $metaData->meta_title = $request->input('meta_title');
+                $metaData->meta_keyword = $request->input('meta_keyword');
+                $metaData->meta_description = $request->input('meta_description');
+                $metaData->service_id = $sev->id;
+                $metaData->save();
+            }
+
+           // Overview Area
+           $ooverdata =  Overview::find($sev->overviews->id);
+           if( $request->input('oversubtitle')){
+               $ooverdata->subtitle = $request->input('oversubtitle');
+           }
+           $ooverdata->title = $request->input('overtitle');
+           $ooverdata->content = $request->input('content');
+           $ooverdata->RYlink = $request->input('RYlink');
+           //overview image
+           if($request->hasFile('Rimg'))
+           {
+               //Get full name with extenstion
+               $filenameWithExt = $request->file('Rimg')->getClientOriginalName();
+               // Get only name
+               $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+               // GET ONLY EXTENTION
+               $Extenstion = $request->file('Rimg')->getClientOriginalExtension();
+               // final file name
+               $fileNameToStoreRimg = $filename. '_'.time().'.'.$Extenstion ;
+               $path = $request->file('Rimg')->storeAs('public/uploads', $fileNameToStoreRimg);
+               $ooverdata->Rimg = $fileNameToStoreRimg;
+               $ooverdata->Rimg_alttext = $request->input('Rimg_alttext');
+           }
+           $ooverdata->service_id =  $sev->id;
+           $ooverdata->save();
+
+             
+
+            // Hero Section
+             $heroSec = HomeSection::find($sev->herosection->id);
+             $heroSec->title = $request->input('Herotitle');
+             $heroSec->des = $request->input('ContentHero');
+             if($request->hasFile('heroRimg'))
+                {
+                    //Get full name with extenstion
+                    $filenameWithExt = $request->file('heroRimg')->getClientOriginalName();
+                    // Get only name
+                    $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+                    // GET ONLY EXTENTION
+                    $Extenstion = $request->file('heroRimg')->getClientOriginalExtension();
+                    // final file name
+                    $fileNameToStoreheroRimg = $filename. '_'.time().'.'.$Extenstion ;
+                    $path = $request->file('heroRimg')->storeAs('public/uploads', $fileNameToStoreheroRimg);
+                    $heroSec->Rimg = $fileNameToStoreheroRimg;
+                    $heroSec->Rimg_alttext = $request->input('heroRimg_alttext');
+                }
+             
+                if($request->hasFile('G_img'))
+                {
+                    //Get full name with extenstion
+                    $filenameWithExt = $request->file('G_img')->getClientOriginalName();
+                    // Get only name
+                    $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+                    // GET ONLY EXTENTION
+                    $Extenstion = $request->file('G_img')->getClientOriginalExtension();
+                    // final file name
+                    $fileNameToStoreG_img = $filename. '_'.time().'.'.$Extenstion ;
+                    $path = $request->file('G_img')->storeAs('public/uploads', $fileNameToStoreG_img);
+                    $heroSec->G_img = $fileNameToStoreG_img;
+                    $heroSec->G_img_alttext = $request->input('G_img_alttext');
+                }
+                if($request->hasFile('T_img'))
+                {
+                    //Get full name with extenstion
+                    $filenameWithExt = $request->file('T_img')->getClientOriginalName();
+                    // Get only name
+                    $filename = pathinfo($filenameWithExt , PATHINFO_FILENAME);
+                    // GET ONLY EXTENTION
+                    $Extenstion = $request->file('T_img')->getClientOriginalExtension();
+                    // final file name
+                    $fileNameToStoreT_img = $filename. '_'.time().'.'.$Extenstion ;
+                    $path = $request->file('T_img')->storeAs('public/uploads', $fileNameToStoreT_img);
+                    $heroSec->T_img = $fileNameToStoreT_img;
+                    $heroSec->T_img_alttext = $request->input('T_img_alttext');
+                }
+             $heroSec->btn_one = $request->input('btn_one');
+             if($request->input('btn_two')){
+                $heroSec->btn_two = $request->input('btn_two');
+             }
+             $inbuildForm = $request->boolean('RForm');
+             $heroSec->RForm = $inbuildForm;
+             $heroSec->service_id = $sev->id;
+             $heroSec->save();
 
 
-
-             return redirect()->route('admin.pages')->with('success' , 'Home Page Has Been Created Successfull'); 
+             return redirect()->route('admin.service.view')->with('success' , 'Service Has Been Updated Successfull'); 
     }
 }

@@ -95,6 +95,11 @@ if($currentRouteName == 'admin.login' ){
                 filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
                 filebrowserUploadMethod: 'form'
         });
+        CKEDITOR.replace( 'texteditor3' , {
+                width: '100%',
+                filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+                filebrowserUploadMethod: 'form'
+        });
     </script>
     <script>
     function clearAllMessages(){
