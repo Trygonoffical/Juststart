@@ -19,7 +19,7 @@ use App\Models\Overview;
 class DashboardController extends Controller
 {
 
-    // Upload ckeditor uploads 
+    // Upload ckeditor uploads
     public function upload(Request $request)
     {
         if($request->hasFile('upload')) {
@@ -27,17 +27,17 @@ class DashboardController extends Controller
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
             $extension = $request->file('upload')->getClientOriginalExtension();
             $fileName = $fileName.'_'.time().'.'.$extension;
-        
+
             // $request->file('upload')->move(public_path('images'), $fileName);
             $request->file('upload')->storeAs('public/uploads', $fileName);
             $CKEditorFuncNum = $request->input('CKEditorFuncNum');
-            // $url = asset('images/'.$fileName); 
+            // $url = asset('images/'.$fileName);
             $url = asset('storage/uploads/'.$fileName) ;
-            
-            $msg = 'Image uploaded successfully'; 
+
+            $msg = 'Image uploaded successfully';
             $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
-               
-            @header('Content-type: text/html; charset=utf-8'); 
+
+            @header('Content-type: text/html; charset=utf-8');
             echo $response;
         }
     }
@@ -45,7 +45,7 @@ class DashboardController extends Controller
     public function index()
     {
         return view('admin/dashboard');
-    } 
+    }
 
     public function metatags()  {
         $metatags = Metatag::all();
@@ -63,7 +63,7 @@ class DashboardController extends Controller
     public function createPages()  {
         return view('admin.pages.createhome');
     }
-    // store homepage data 
+    // store homepage data
     public function storeHomepage(Request $request)  {
         $validated = $request->validate([
             // Hero Sec
@@ -129,7 +129,7 @@ class DashboardController extends Controller
         ]);
 
 
-        // image upload 
+        // image upload
 
             // USP2
             if($request->hasFile('USP_img2'))
@@ -150,7 +150,7 @@ class DashboardController extends Controller
                 }
 
             // USP1
-            
+
             if($request->hasFile('USP_img'))
                 {
                     //Get full name with extenstion
@@ -286,7 +286,7 @@ class DashboardController extends Controller
                else{
                    $fileNameToStoreG_img = 'NoImge.jpg';
                }
-               
+
             if($request->hasFile('T_img'))
                {
                    //Get full name with extenstion
@@ -303,13 +303,13 @@ class DashboardController extends Controller
                else{
                    $fileNameToStoreT_img = 'NoImge.jpg';
                }
-               // Abesh 
+               // Abesh
 
-            
-            
-            
-            
-            
+
+
+
+
+
             $homepage = new HomePage();
             // client Area
             if( $request->input('client_sub')){
@@ -318,7 +318,7 @@ class DashboardController extends Controller
             $homepage->client_title = $request->input('client_title');
             $homepage->client_content = $request->input('client_content');
 
-            // Service  Panel Area 
+            // Service  Panel Area
             if( $request->input('Serv_sub')){
                 $homepage->Serv_sub = $request->input('Serv_sub');
             }
@@ -327,7 +327,7 @@ class DashboardController extends Controller
                 $homepage->Serv_content = $request->input('Serv_content');
             }
 
-            // Testimonial  Panel Area 
+            // Testimonial  Panel Area
             if( $request->input('test_sub')){
                 $homepage->test_sub = $request->input('test_sub');
             }
@@ -397,7 +397,7 @@ class DashboardController extends Controller
 
              // USP 2
              $uspsval2  = new Usp();
-             
+
              if($request->input('USP_sub_title2')){
                  $uspsval2->sub_title = $request->input('USP_sub_title2');
              }
@@ -425,7 +425,7 @@ class DashboardController extends Controller
              $heroSec->home_id = $homepage->id;
              $heroSec->save();
 
-            // meta data update 
+            // meta data update
             if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
                 $metaData = new Metatag();
                 $metaData->meta_title = $request->input('meta_title');
@@ -434,11 +434,11 @@ class DashboardController extends Controller
                 $metaData->home_id = $homepage->id;
                 $metaData->save();
             }
-            
 
 
 
-             return redirect()->route('admin.pages')->with('success' , 'Home Page Has Been Created Successfull'); 
+
+             return redirect()->route('admin.pages')->with('success' , 'Home Page Has Been Created Successfull');
     }
 
     // update Homepage data
@@ -461,23 +461,23 @@ class DashboardController extends Controller
             //WhatWeDo
             'WhatDo_title' => 'required',
             // point One
-            
+
             'WDO_bOne_icon_alttext' => 'required',
             'WDo_bone_title' => 'required',
             'WDo_bone_content' => 'required',
             // Point Two
-            
+
             'WDo_bTwo_icon_alttext' => 'required',
             'WDo_bTwo_title' => 'required',
             'WDo_bTwo_content' => 'required',
             // Point Three
-            
+
             'WDo_bThree_Icon_alttext' => 'required',
             'WDo_bThree_title' => 'required',
             'WDo_bThree_content' => 'required',
 
             // Point Four
-            
+
             'Wdo_bFour_icon_alttext' => 'required',
             'WDo_bFour_title' => 'required',
             'WDo_bFour_content' => 'required',
@@ -495,7 +495,7 @@ class DashboardController extends Controller
             'USP_title' => 'required',
             'USP_content' => 'required',
             'USP_btn' => 'required',
-            
+
             'USP_bg_color' => 'required',
             // USP Sec Point 2
             'USP_title2' => 'required',
@@ -503,8 +503,8 @@ class DashboardController extends Controller
             'btn2' => 'required',
             'USP_bg_color2' => 'required',
         ]);
-  
-               // Abesh 
+
+               // Abesh
 
             $homepage =  HomePage::find($id);
             // client Area
@@ -514,7 +514,7 @@ class DashboardController extends Controller
             $homepage->client_title = $request->input('client_title');
             $homepage->client_content = $request->input('client_content');
 
-            // Service  Panel Area 
+            // Service  Panel Area
             if( $request->input('Serv_sub')){
                 $homepage->Serv_sub = $request->input('Serv_sub');
             }
@@ -523,7 +523,7 @@ class DashboardController extends Controller
                 $homepage->Serv_content = $request->input('Serv_content');
             }
 
-            // Testimonial  Panel Area 
+            // Testimonial  Panel Area
             if( $request->input('test_sub')){
                 $homepage->test_sub = $request->input('test_sub');
             }
@@ -628,7 +628,7 @@ class DashboardController extends Controller
              $coutArea->pthree = $request->input('pthree');
              $coutArea->pfour = $request->input('pfour');
              $coutArea->btn_Value = $request->input('btn');
-           
+
              if($request->hasFile('trusted_img'))
                 {
                     //Get full name with extenstion
@@ -668,7 +668,7 @@ class DashboardController extends Controller
                     $uspsval->img = $fileNameToStoreUSP;
 
                 }
-                
+
              $uspsval->img_alt = $request->input('USP_img_alt');
              $uspsval->bg_color = $request->input('USP_bg_color');
              $uspsval->home_id = $homepage->id;
@@ -676,7 +676,7 @@ class DashboardController extends Controller
 
              // USP 2
              $uspsval2  = Usp::find($homepage->USPs[1]->id);
-             
+
              if($request->input('USP_sub_title2')){
                  $uspsval2->sub_title = $request->input('USP_sub_title2');
              }
@@ -757,27 +757,27 @@ class DashboardController extends Controller
              $heroSec->home_id = $homepage->id;
              $heroSec->save();
 
-            // meta data update 
+            // meta data update
             if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
                 if($homepage->metatag){
                     $metaData =  Metatag::find($homepage->metatag->id);
                 }else{
                     $metaData = new Metatag();
                 }
-                
+
                 $metaData->meta_title = $request->input('meta_title');
                 $metaData->meta_keyword = $request->input('meta_keyword');
                 $metaData->meta_description = $request->input('meta_description');
                 $metaData->home_id = $homepage->id;
                 $metaData->save();
             }
-            
 
 
 
-             return redirect()->route('admin.pages')->with('success' , 'Home Page Has Been Updated Successfull'); 
+
+             return redirect()->route('admin.pages')->with('success' , 'Home Page Has Been Updated Successfull');
     }
-    
+
     public function editHome($id) {
         $home = HomePage::find($id);
         return view('admin.pages.edithome' , ['home' => $home]);
@@ -788,12 +788,117 @@ class DashboardController extends Controller
     public function createContact() {
         return view('admin.pages.contact.create');
     }
+    public function editContact() {
+        $cont = ContactPage::find(1);
+        return view('admin.pages.contact.edit' , ['cont' => $cont]);
+    }
     public function createCustomPages() {
         return view('admin.pages.createpage');
-        
+    }
+    // store contact page data
+    public function storeContactPage(Request $request){
+        $validated = $request->validate([
+            // Hero Sec
+            'meta_title' => 'required',
+            'meta_keyword' => 'required',
+            'meta_description' => 'required',
+
+
+            'email' => 'required',
+            'address' => 'required',
+            'phoneno' => 'required',
+            // 'whatappno' => 'required',
+            'gmap' => 'required',
+
+
+            // 'fb' => 'required',
+            // 'twitter' => 'required',
+            // 'insta' => 'required',
+            // 'linkdin' => 'required',
+            // 'youtlink' => 'required',
+            // 'youtube' => 'required',
+
+        ]);
+        $cont = new Contactpage();
+
+        // Company Detials
+        $cont->email = $request->input('email');
+        if($request->input('address')) {$cont->address = $request->input('address');}
+        if($request->input('phoneno')) {$cont->phoneno = $request->input('phoneno');}
+        if($request->input('whatappno')) {$cont->whatappno = $request->input('whatappno');}
+        if($request->input('gmap')) {$cont->gmap = $request->input('gmap');}
+
+        // Social Media
+        if($request->input('fb')){
+            $cont->fb = $request->input('fb');
+        }
+        if($request->input('twitter')){
+            $cont->twitter = $request->input('twitter');
+        }
+        if($request->input('insta')){
+            $cont->insta = $request->input('insta');
+        }
+        if($request->input('linkdin')){
+            $cont->linkdin = $request->input('linkdin');
+        }
+        if($request->input('youtube')){
+            $cont->youtube = $request->input('youtube');
+        }
+        $cont->save();
+        // meta data update
+        if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
+            $metaData = new Metatag();
+            $metaData->meta_title = $request->input('meta_title');
+            $metaData->meta_keyword = $request->input('meta_keyword');
+            $metaData->meta_description = $request->input('meta_description');
+            $metaData->contact_id  = $cont->id;
+            $metaData->save();
+        }
+        return redirect()->route('admin.pages')->with('success' , 'Contact Page Has Been Created Successfull');
     }
 
-    // store About page data 
+    // udpate contact page data
+    public function updateContactPage(Request $request , $id){
+
+        $cont =  Contactpage::find($id);
+
+        // Company Detials
+        $cont->email = $request->input('email');
+        if($request->input('address')) {$cont->address = $request->input('address');}
+        if($request->input('phoneno')) {$cont->phoneno = $request->input('phoneno');}
+        if($request->input('whatappno')) {$cont->whatappno = $request->input('whatappno');}
+        if($request->input('gmap')) {$cont->gmap = $request->input('gmap');}
+
+        // Social Media
+        if($request->input('fb')){
+            $cont->fb = $request->input('fb');
+        }
+        if($request->input('twitter')){
+            $cont->twitter = $request->input('twitter');
+        }
+        if($request->input('insta')){
+            $cont->insta = $request->input('insta');
+        }
+        if($request->input('linkdin')){
+            $cont->linkdin = $request->input('linkdin');
+        }
+        if($request->input('youtube')){
+            $cont->youtube = $request->input('youtube');
+        }
+        $cont->save();
+        // meta data update
+        if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
+            $metaData = Metatag::find($cont->metatag->id);
+            $metaData->meta_title = $request->input('meta_title');
+            $metaData->meta_keyword = $request->input('meta_keyword');
+            $metaData->meta_description = $request->input('meta_description');
+            $metaData->contact_id  = $cont->id;
+            $metaData->save();
+        }
+        return redirect()->route('admin.pages')->with('success' , 'Contact Page Has Been Updated Successfull');
+    }
+
+    // store About page data
     public function storeAboutpage(Request $request)  {
         $validated = $request->validate([
             // Hero Sec
@@ -819,7 +924,7 @@ class DashboardController extends Controller
             'Flinkdin' => 'required',
             'Fdesignation' => 'required',
             'Fl_name' => 'required',
-            
+
         ]);
         $abdata = new About();
         $abdata->title = $request->input('title');
@@ -907,7 +1012,7 @@ class DashboardController extends Controller
         $abdata->save();
 
 
-        // meta data update 
+        // meta data update
         if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
             $metaData = new Metatag();
             $metaData->meta_title = $request->input('meta_title');
@@ -916,7 +1021,7 @@ class DashboardController extends Controller
             $metaData->about_id = $abdata->id;
             $metaData->save();
         }
-        return redirect()->route('admin.pages')->with('success' , 'About Page Has Been Created Successfull'); 
+        return redirect()->route('admin.pages')->with('success' , 'About Page Has Been Created Successfull');
     }
 
 
@@ -925,13 +1030,13 @@ class DashboardController extends Controller
         $clients = Client::all();
         return view('admin.pages.clients.index' , ['clients'=> $clients]);
     }
-    // store Client page data 
+    // store Client page data
     public function storeClientpage(Request $request)  {
         $validated = $request->validate([
             // Hero Sec
             'logos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
+
         if ($request->hasfile('logos')) {
             foreach ($request->file('logos') as $index => $file) {
                 // Get full name with extension
@@ -944,19 +1049,19 @@ class DashboardController extends Controller
                 $fileNameToStore = $filename . '_' . time() . '.' . $extension;
                 // Store the file in the 'public/uploads' directory
                 $path = $file->storeAs('public/uploads', $fileNameToStore);
-    
+
                 // Save the file path and alt text to the database
                 $client = new Client();
                 $client->logo = $fileNameToStore;  // Save just the file name
                 $client->save();
             }
-        
 
-        return redirect()->route('admin.clients')->with('success' , 'Clinet Logos Has Been uploaded Successfull'); 
+
+        return redirect()->route('admin.clients')->with('success' , 'Clinet Logos Has Been uploaded Successfull');
         }
     }
 
-    // store Client page data 
+    // store Client page data
     public function storeClientAlt(Request $request , $id)  {
         $validated = $request->validate([
             // Hero Sec
@@ -968,14 +1073,14 @@ class DashboardController extends Controller
          $client->alttext = $request->input('alt');  // Save just the file name
          $client->save();
 
-        return redirect()->route('admin.clients')->with('success' , 'Clinet Alt Texr Has Been Updated Successfull'); 
-        
+        return redirect()->route('admin.clients')->with('success' , 'Clinet Alt Texr Has Been Updated Successfull');
+
     }
-    // Destory Client page data 
+    // Destory Client page data
     public function destoryClient($id)  {
 
          $client =  Client::find($id);
-          
+
         // Check if the client entry exists
         if ($client) {
             // Get the logo file name
@@ -1006,10 +1111,7 @@ class DashboardController extends Controller
     public function createServices() {
         return view('admin.pages.services.create');
     }
-
-
-
-    // store Service Page 
+    // store Service Page
     public function storeService(Request $request)  {
         $validated = $request->validate([
             // Meta Tags
@@ -1037,7 +1139,7 @@ class DashboardController extends Controller
         ]);
 
 
-        // image upload 
+        // image upload
 
             // Image Store
             if($request->hasFile('card_Img'))
@@ -1056,12 +1158,12 @@ class DashboardController extends Controller
                 else{
                     $fileNameToStore = 'NoImge.jpg';
                 }
-                
-           
 
-            // Service  Area 
+
+
+            // Service  Area
             $sev = new Service();
-            
+
             $sev->Menuname = $request->input('Menuname');
             $sev->card_title = $request->input('card_title');
             $sev->slug = $request->input('slug');
@@ -1074,7 +1176,7 @@ class DashboardController extends Controller
             $sev->status = 'Active';
             $sev->save();
 
-            // meta data update 
+            // meta data update
             if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
                 $metaData = new Metatag();
                 $metaData->meta_title = $request->input('meta_title');
@@ -1110,7 +1212,7 @@ class DashboardController extends Controller
            $ooverdata->service_id =  $sev->id;
            $ooverdata->save();
 
-             
+
 
             // Hero Section
              $heroSec = new HomeSection();
@@ -1130,7 +1232,7 @@ class DashboardController extends Controller
                     $heroSec->Rimg = $fileNameToStoreheroRimg;
                     $heroSec->Rimg_alttext = $request->input('heroRimg_alttext');
                 }
-             
+
                 if($request->hasFile('G_img'))
                 {
                     //Get full name with extenstion
@@ -1169,26 +1271,22 @@ class DashboardController extends Controller
              $heroSec->save();
 
 
-             return redirect()->route('admin.service.view')->with('success' , 'Service Has Been Created Successfull'); 
+             return redirect()->route('admin.service.view')->with('success' , 'Service Has Been Created Successfull');
     }
-
-
-
     public function editService($id) {
         $serv = Service::find($id);
         return view('admin.pages.services.edit' , ['serv' => $serv]);
     }
-
-    // Update Service Page 
+    // Update Service Page
     public function updateService(Request $request , $id)  {
-        
-        // image upload 
 
-            
-                
-           
+        // image upload
 
-            // Service  Area 
+
+
+
+
+            // Service  Area
             $sev = Service::find($id);
             $sev->Menuname = $request->input('Menuname');
             $sev->card_title = $request->input('card_title');
@@ -1215,7 +1313,7 @@ class DashboardController extends Controller
             $sev->status = $request->input('status') == 'Active' ? 'Active' : 'Disable';
             $sev->save();
 
-            // meta data update 
+            // meta data update
             if($request->input('meta_title') != '' || $request->input('meta_keyword') !=$request->input('meta_description')  ){
                 $metaData =  Metatag::find($sev->metatag->id);
                 $metaData->meta_title = $request->input('meta_title');
@@ -1251,7 +1349,7 @@ class DashboardController extends Controller
            $ooverdata->service_id =  $sev->id;
            $ooverdata->save();
 
-             
+
 
             // Hero Section
              $heroSec = HomeSection::find($sev->herosection->id);
@@ -1271,7 +1369,7 @@ class DashboardController extends Controller
                     $heroSec->Rimg = $fileNameToStoreheroRimg;
                     $heroSec->Rimg_alttext = $request->input('heroRimg_alttext');
                 }
-             
+
                 if($request->hasFile('G_img'))
                 {
                     //Get full name with extenstion
@@ -1310,6 +1408,6 @@ class DashboardController extends Controller
              $heroSec->save();
 
 
-             return redirect()->route('admin.service.view')->with('success' , 'Service Has Been Updated Successfull'); 
+             return redirect()->route('admin.service.view')->with('success' , 'Service Has Been Updated Successfull');
     }
 }

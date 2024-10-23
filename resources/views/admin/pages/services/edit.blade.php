@@ -9,16 +9,20 @@
     <h1 class="h3 mb-2 mb-4 text-gray-800">Edit Service</h1>
 
     <div class="row">
-        <!-- Display errors if there are any -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+
+            <!-- Display errors if there are any -->
+            @if ($errors->any())
+            <div class="col-12">
+                <div class="alert alert-danger w-100">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
-        @endif
+            @endif
+
         <div class="col-md-9">
             {{-- Meta Panel --}}
             <div class="panel-group shadow mb-4">
@@ -33,7 +37,7 @@
                         <!-- Card Body -->
 
                         <div class="card-body">
-                           
+
                             <form action="{{route('admin.service.updateService' , $serv->id)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -49,20 +53,20 @@
                                     <textarea class="form-control" id="meta_keyword" name="meta_keyword" >{{$serv->metatag->meta_keyword}}</textarea>
 
                                 </div>
-                                
+
                                 <div class="mb-4">
                                     <label for="meta_description" class="form-label">Description</label>
                                     <textarea class="form-control" id="meta_description" name="meta_description" >{{$serv->metatag->meta_description}}</textarea>
-                                
+
                                 </div>
-                        
+
                         </div>
                     </div>
                 </div>
                 </div>
             </div>
-        
-           
+
+
             {{-- Card Section Panel --}}
             <div class="panel-group shadow mb-4">
                 <div class="panel panel-default">
@@ -160,11 +164,11 @@
                                 </div>
                                 <hr>
                                 <div class="mb-4">
-                                   
-                                    <label><input name="RForm" type="checkbox" value="1" 
-                                    @if ($serv->herosection->RForm == 1) 
+
+                                    <label><input name="RForm" type="checkbox" value="1"
+                                    @if ($serv->herosection->RForm == 1)
                                         checked
-                                    @endif 
+                                    @endif
                                     class="mr-3">Inbuild Form </label>
                                     <br><span> -or-</span> <br>
 
@@ -313,60 +317,57 @@
                         <!-- Card Body -->
 
                         <div class="card-body">
-                            
+
                             <div class="mb-6 d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary mt-6 px-5">Update</button>
                                 {{-- <a class="btn btn-outline-primary ml-4 " href="">Cancel</a> --}}
-                            </div>    
+                            </div>
                         </div>
                     </div>
                 </div>
                 </div>
             </div>
-        </form>
-        <div class="panel-group shadow mb-4">
-            <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="card ">
-                    <div class="card-header py-3" role="button"  data-toggle="collapse" href="#NESECTION">
-                        <h6 class="m-0 font-weight-bold text-primary" >New Section</h6>
-                    </div>
-                </div>
-                <div id="NESECTION" class="panel-collapse ">
-                    <!-- Card Body -->
-
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <label for="Section" class="form-label">Section</label>
-                            {{-- <input type="text" class="form-control" id="category" name="category"  > --}}
-                            <select name="Section" id="Section" class="form-control " >
-                                <option selected>New Section</option>
-                                <option value="PLAN">PLAN</option>
-                                <option value="FEATURES">FEATURES</option>
-                                <option value="CHECKLIST">CHECKLIST</option>
-                                <option value="WHY">WHY</option>
-                                <option value="DOCUMENTS">DOCUMENTS REQUIRED</option>
-                            </select>
-                            {{-- <textarea class="form-control" id="texteditor" name="content" ></textarea> --}}
+            </form>
+            <div class="panel-group shadow mb-4">
+                <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="card ">
+                        <div class="card-header py-3" role="button"  data-toggle="collapse" href="#NESECTION">
+                            <h6 class="m-0 font-weight-bold text-primary" >New Section</h6>
                         </div>
-                        <div class="mb-6 d-flex justify-content-start">
-                            
-                            <button type="submit" class="btn btn-primary mt-6 px-5">Create</button>
-                            {{-- <a class="btn btn-outline-primary ml-4 " href="">Cancel</a> --}}
-                        </div>    
+                    </div>
+                    <div id="NESECTION" class="panel-collapse ">
+                        <!-- Card Body -->
+
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <label for="Section" class="form-label">Section</label>
+                                {{-- <input type="text" class="form-control" id="category" name="category"  > --}}
+                                <select name="Section" id="Section" class="form-control " >
+                                    <option selected>New Section</option>
+                                    <option value="PLAN">PLAN</option>
+                                    <option value="FEATURES">FEATURES</option>
+                                    <option value="CHECKLIST">CHECKLIST</option>
+                                    <option value="WHY">WHY</option>
+                                    <option value="DOCUMENTS">DOCUMENTS REQUIRED</option>
+                                </select>
+                                {{-- <textarea class="form-control" id="texteditor" name="content" ></textarea> --}}
+                            </div>
+                            <div class="mb-6 d-flex justify-content-start">
+
+                                <button type="submit" class="btn btn-primary mt-6 px-5">Create</button>
+                                {{-- <a class="btn btn-outline-primary ml-4 " href="">Cancel</a> --}}
+                            </div>
+                        </div>
                     </div>
                 </div>
+                </div>
             </div>
-            </div>
-        </div>
 
         </div>
-       
-        
     </div>
-    
+
 </div>
-<!-- /.container-fluid -->  
+<!-- /.container-fluid -->
 
 @endsection
-    

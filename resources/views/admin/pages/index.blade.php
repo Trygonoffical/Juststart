@@ -30,7 +30,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Listing</h6>
         </div>
         <div class="card-body">
-            
+
             <div class="table-responsive">
                 <table class="table table-bordered page_data_table" id="page_data_table" width="100%" cellspacing="0">
                     <thead>
@@ -60,7 +60,7 @@
                                 <td>About Page</td>
                                 <td>/about</td>
                                 <td>
-                                    <a  href="{{ route('admin.serviceSeo', $aboutpage->id) }}">
+                                    <a  href="{{ route('admin.AboutPage.edit', $aboutpage->id) }}">
                                         <i class="fas fa-fw fa-edit"></i>
                                     </a>
                                 </td>
@@ -71,7 +71,7 @@
                                 <td>Contactus Page</td>
                                 <td>/contact</td>
                                 <td>
-                                    <a  href="{{ route('admin.serviceSeo', $contactpage->id) }}">
+                                    <a  href="{{ route('admin.ContactPage.edit', $contactpage->id) }}">
                                         <i class="fas fa-fw fa-edit"></i>
                                     </a>
                                 </td>
@@ -86,12 +86,12 @@
                                     <a  href="{{ route('admin.serviceSeo', $row->id) }}">
                                         <i class="fas fa-fw fa-edit"></i>
                                     </a>
-                                    <a href="{{ route('admin.serviceSeo', $homepage->id) }}" >
+                                    <a href="{{ route('admin.serviceSeo', $row->id) }}" >
                                         <i class="fas fa-fw fa-trash-alt"></i>
-                                    </a> 
+                                    </a>
                                 </td>
                             </tr>
-                            
+
                         @endforeach
                     @endif
                     </tbody>
@@ -109,12 +109,11 @@
 $(document).ready(function() {
   $('#page_data_table').DataTable({
     "order": [[ 1, "asc" ]]
-  });  
+  });
 });
 
 
 
-</script>    
+</script>
 
 @endsection
-    

@@ -159,6 +159,8 @@ Route::group(['prefix'=>'admin','middleware' => ['auth', 'admin']], function() {
     Route::get('pages/create/contact', [DashboardController::class, 'createContact'])->name('admin.Contact.create');
     Route::get('pages/create/page', [DashboardController::class, 'createCustomPages'])->name('admin.pages.createcustom');
     Route::get('pages/home/{id}', [DashboardController::class, 'editHome'])->name('admin.homepages.edit');
+    Route::get('pages/about/{id}', [DashboardController::class, 'editAbout'])->name('admin.AboutPage.edit');
+    Route::get('pages/contact/{id}', [DashboardController::class, 'editContact'])->name('admin.ContactPage.edit');
 	Route::get('enquiry', [AdminEnquiryController::class, 'index'])->name('admin.enquiry');
 
 	// services
@@ -167,11 +169,13 @@ Route::group(['prefix'=>'admin','middleware' => ['auth', 'admin']], function() {
     Route::get('pages/create/service', [DashboardController::class, 'createServices'])->name('admin.service.create');
 
 
-	// post Requests 
+	// post Requests
 	// CK Editor Uploads
 	Route::post('/upload', [DashboardController::class, 'upload'])->name('upload');
 	// rest
     Route::post('pages/service/store', [DashboardController::class, 'storeService'])->name('admin.service.store');
+    Route::post('pages/contact/store', [DashboardController::class, 'storeContactPage'])->name('admin.contact.store');
+    Route::put('pages/contact/uddate/{id}', [DashboardController::class, 'updateContactPage'])->name('admin.contact.update');
     Route::put('pages/service/update/{id}', [DashboardController::class, 'updateService'])->name('admin.service.updateService');
     Route::post('pages/home/store', [DashboardController::class, 'storeHomepage'])->name('admin.pagesUpdate.homepage');
     Route::post('pages/about/store', [DashboardController::class, 'storeAboutpage'])->name('admin.pagesUpdate.aboutpage');
@@ -180,13 +184,13 @@ Route::group(['prefix'=>'admin','middleware' => ['auth', 'admin']], function() {
     Route::put('pages/client/update/{id}', [DashboardController::class, 'storeClientAlt'])->name('admin.storeClient.update');
     Route::delete('pages/client/{id}', [DashboardController::class, 'destoryClient'])->name('admin.destoryClient');
     // Route::post('pages/updateBanner', [DashboardController::class, 'updateBanner'])->name('admin.pagesUpdate.Banner');
-    
+
 	// Services
 	Route::get('service', [AdminServiceController::class, 'index'])->name('admin.service');
 	Route::get('service/seo/{id}', [AdminServiceController::class, 'seo'])->name('admin.serviceSeo');
 	Route::post('service/seo/update/{id}', [AdminServiceController::class, 'seoUpdate'])->name('admin.serviceSeoUpdate');
 
-	
+
     Route::get('logout', [LoginController::class, 'logout'])->name('admin.logout');
 });
 

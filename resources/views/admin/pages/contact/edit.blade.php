@@ -37,25 +37,25 @@
 
                         <div class="card-body">
 
-                            <form action="{{route('admin.contact.store')}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{route('admin.contact.update' , $cont->id)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @method('POST')
+                                @method('PUT')
 
                                 <div class="mb-4">
                                     <label for="meta_title" class="form-label">Title</label>
-                                    <input type="text" class="form-control" id="meta_title" name="meta_title"  >
+                                    <input type="text" class="form-control" id="meta_title" name="meta_title" value="{{$cont->metatag->meta_title}}" >
 
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="meta_keyword" class="form-label">Keyword</label>
-                                    <textarea class="form-control" id="meta_keyword" name="meta_keyword" ></textarea>
+                                    <textarea class="form-control" id="meta_keyword" name="meta_keyword" >{{$cont->metatag->meta_keyword}}</textarea>
 
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="meta_description" class="form-label">Description</label>
-                                    <textarea class="form-control" id="meta_description" name="meta_description" ></textarea>
+                                    <textarea class="form-control" id="meta_description" name="meta_description" >{{$cont->metatag->meta_description}}</textarea>
 
                                 </div>
 
@@ -81,25 +81,25 @@
                         <div class="card-body">
                                 <div class="mb-4">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="email" name="email"  >
+                                    <input type="text" class="form-control" id="email" name="email" value="{{$cont->email}}" >
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="address" class="form-label">Address</label>
-                                    <textarea class="form-control" id="address" name="address" ></textarea>
+                                    <textarea class="form-control" id="address" name="address" >{{$cont->address}}</textarea>
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="phoneno" class="form-label">Phone No.</label>
-                                    <input type="number" class="form-control mt-3" id="phoneno" name="phoneno" >
+                                    <input type="number" class="form-control mt-3" id="phoneno" name="phoneno" value="{{$cont->phoneno}}">
                                 </div>
                                 <div class="mb-4">
                                     <label for="whatappno" class="form-label">Whatsapp No.</label>
-                                    <input type="number" class="form-control mt-3" id="whatappno" name="whatappno" >
+                                    <input type="number" class="form-control mt-3" id="whatappno" name="whatappno" value="{{$cont->whatappno}}" >
                                 </div>
                                 <div class="mb-4">
                                     <label for="gmap" class="form-label">G Map</label>
-                                    <input type="text" class="form-control" id="gmap" name="gmap"  >
+                                    <input type="text" class="form-control" id="gmap" name="gmap"  value="{{$cont->gmap}}" >
                                 </div>
 
                         </div>
@@ -123,23 +123,23 @@
                             <div class="card-body">
                                     <div class="mb-4">
                                         <label for="fb" class="form-label">Facebook</label>
-                                        <input type="text" class="form-control" id="fb" name="fb"  >
+                                        <input type="text" class="form-control" id="fb" name="fb" value="{{$cont->fb}}" >
                                     </div>
                                     <div class="mb-4">
                                         <label for="twitter" class="form-label">Twitter</label>
-                                        <input type="text" class="form-control" id="twitter" name="twitter"  >
+                                        <input type="text" class="form-control" id="twitter" name="twitter"  value="{{$cont->twitter}}" >
                                     </div>
                                     <div class="mb-4">
                                         <label for="insta" class="form-label">Instagram</label>
-                                        <input type="text" class="form-control" id="insta" name="insta"  >
+                                        <input type="text" class="form-control" id="insta" name="insta"  value="{{$cont->insta}}" >
                                     </div>
                                     <div class="mb-4">
                                         <label for="linkdin" class="form-label">linkdin</label>
-                                        <input type="text" class="form-control" id="linkdin" name="linkdin"  >
+                                        <input type="text" class="form-control" id="linkdin" name="linkdin"  value="{{$cont->linkdin}}" >
                                     </div>
                                     <div class="mb-4">
                                         <label for="youtube" class="form-label">Youtube</label>
-                                        <input type="text" class="form-control" id="youtube" name="youtube"  >
+                                        <input type="text" class="form-control" id="youtube" name="youtube"  value="{{$cont->youtube}}" >
                                     </div>
                             </div>
                         </div>
